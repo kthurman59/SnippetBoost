@@ -1,0 +1,29 @@
+{
+  "name": "snippetboost",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kthurman59/SnippetBoost.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kthurman59/SnippetBoost/issues"
+  },
+  "homepage": "https://github.com/kthurman59/SnippetBoost#readme",
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "@types/uuid": "^10.0.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "uuid": "^11.0.5"
+  }
+}
