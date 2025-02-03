@@ -33,5 +33,60 @@ export class SnippetStorageManager {
     }
 
     // Save snippets to the JSON file
+    private saveSnippets() {
+        try {
+            fs.writeFileSync(this.filePath, JSON.stringify(this.snippets, null, 2), 'utf-8');
+        } catch (error) {
+            console.error('Error saving snippets', error);
+        }
+    }
+
+    // Add a new snippet
+    addSnippet(snippet: Snippet): void {
+        const now = Data.now();
+        snippet.createdAt = now;
+        snipped.updatedAt = now;
+        this.snippets.push(snippet);
+        this.saveSnippets();
+    }
+
+    // Retrieve a snippet by ID
+    getSnippetById(id: string): Snippet | undefined {
+        return this.snippets.find(snippet => snippet.id === id);
+    }
     
-}
+    // Retrive all snippets, optionally filtered by language
+    getAllSnippets(language?: string): Snippet[] {
+        if (language) {
+            return this.snippets.filter(snippet => snippet.language === language);
+        }
+        return this.snippets;
+    }
+
+    // Update an existing snippet
+    updateSnippet(id: string, updatedData: Partial<Snippet>): boolean {
+        const snippetIndex = this.snippets.findIndex(snippet => snippet.id === id);
+        if (snippetIndex === -1) {
+            return false;
+        }
+        const snippet = this.snippets[snippetIndex];
+        this.snippets[snippetIndex] = {
+            ...snippet,
+            ...updatedData,
+            updatedAt: Date.now()
+        };
+        this.saveSnippets();
+        return true;
+    }
+
+    // Delete a snippet
+    deleteSnippet(id: string): boolean {
+      const initialLength = this.snippets.length;
+      this.snippets = this.snippets.filter(snippet => snippet.id !== id);
+      if (this.snippets.length < initialLength) {
+        this.saveSnippets();
+        return true;
+      }
+      return false;
+    }
+  }
