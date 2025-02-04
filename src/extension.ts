@@ -5,7 +5,7 @@ import { Snippet } from './models/Snippet';
 import { v4 as uuidv4 } from 'uuid';  // For unique ID generation
 
 // Initialize the storage manager (optionally passing a custom storage directory)
-const snippetStorage = new SnippetStorageManager();
+const snippetStorageManager = new SnippetStorageManager();
 
 // Create a new snippet
 const newSnippet: Snippet = {
@@ -18,18 +18,26 @@ const newSnippet: Snippet = {
 };
 
 // Add the snippet
-snippetStorage.addSnippet(newSnippet);
-console.log('Snippet added!');
+snippetStorageManager.addSnippet({
+  id: "test123",
+  title: "Hello World",
+  language: "javascript",
+  content: "console.log('Hello, World!');",
+  createdAt: 0,  // Will be set inside addSnippet()
+  updatedAt: 0
+});
+console.log("Snippet added!");
+
 
 // Retrieve and display the snippet
-const retrievedSnippet = snippetStorage.getSnippetById(newSnippet.id);
+const retrievedSnippet = snippetStorageManager.getSnippetById(newSnippet.id);
 console.log('Retrieved Snippet:', retrievedSnippet);
 
 // Update the snippet
-snippetStorage.updateSnippet(newSnippet.id, { content: 'console.log("Updated content");' });
+snippetStorageManager.updateSnippet(newSnippet.id, { content: 'console.log("Updated content");' });
 console.log('Snippet updated!');
 
 // Delete the snippet
-snippetStorage.deleteSnippet(newSnippet.id);
+snippetStorageManager.deleteSnippet(newSnippet.id);
 console.log('Snippet deleted!');
 

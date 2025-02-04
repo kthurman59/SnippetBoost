@@ -35,9 +35,11 @@ export class SnippetStorageManager {
   // Save snippets to the JSON file
   private saveSnippets() {
     try {
-      fs.writeFileSync(this.filePath, JSON.stringify(this.snippets, null, 2), 'utf-8');
+      console.log("Saving snippets to:", this.filePath);
+      fs.writeFileSync(this.filePath, JSON.stringify(this.snippets, null, 2), "utf-8");
+      console.log("Snippets saved successfully!");
     } catch (error) {
-      console.error('Error saving snippets:', error);
+      console.error("Error saving snippets:", error);
     }
   }
 
@@ -79,7 +81,7 @@ export class SnippetStorageManager {
     return true;
   }
 
-  // Delete a snippet
+  // Delete a snippet by ID
   deleteSnippet(id: string): boolean {
     const initialLength = this.snippets.length;
     this.snippets = this.snippets.filter(snippet => snippet.id !== id);
@@ -90,4 +92,3 @@ export class SnippetStorageManager {
     return false;
   }
 }
-
