@@ -7,5 +7,5 @@ export interface Snippet {
     language: string;
     content: string;
     createdAt: number;
-    updateAt: number;
+    updatedAt: number;
 }

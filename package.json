@@ -2,12 +2,9 @@
   "name": "snippetboost",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/extension.js",
   "scripts": {
-    "scripts": {
-            "build": "tsc"
-        },
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
