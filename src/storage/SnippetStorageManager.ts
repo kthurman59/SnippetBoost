@@ -48,12 +48,14 @@ export class SnippetStorageManager {
     const now = Date.now();
     snippet.createdAt = now;
     snippet.updatedAt = now;
+    console.log('Adding snippet:', snippet);
     this.snippets.push(snippet);
     this.saveSnippets();
   }
 
   // Retrieve a snippet by ID
   getSnippetById(id: string): Snippet | undefined {
+    console.log('Retrieving snippet with ID:', id);
     return this.snippets.find(snippet => snippet.id === id);
   }
 

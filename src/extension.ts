@@ -1,43 +1,78 @@
-// src/extension.ts
-
+import * as vscode from 'vscode';
 import { SnippetStorageManager } from './storage/SnippetStorageManager';
 import { Snippet } from './models/Snippet';
 import { v4 as uuidv4 } from 'uuid';  // For unique ID generation
 
-// Initialize the storage manager (optionally passing a custom storage directory)
 const snippetStorageManager = new SnippetStorageManager();
 
-// Create a new snippet
-const newSnippet: Snippet = {
-  id: uuidv4(),
-  title: 'Example Snippet',
-  language: 'typescript',
-  content: 'console.log("Hello, World!");',
-  createdAt: 0,  // Will be set inside addSnippet
-  updatedAt: 0   // Will be set inside addSnippet
-};
+export function activate(context: vscode.ExtensionContext) {
+    console.log('SnippetBoost extension is now active.');
 
-// Add the snippet
-snippetStorageManager.addSnippet({
-  id: "test123",
-  title: "Hello World",
-  language: "javascript",
-  content: "console.log('Hello, World!');",
-  createdAt: 0,  // Will be set inside addSnippet()
-  updatedAt: 0
-});
-console.log("Snippet added!");
+    // Command to add a snippet from the selected text
+    let addSnippetCommand = vscode.commands.registerCommand('snippetBoost.addSnippet', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('No active text editor found.');
+            return;
+        }
 
+        const selectedText = editor.document.getText(editor.selection);
+        if (!selectedText) {
+            vscode.window.showErrorMessage('No text selected to save as a snippet.');
+            return;
+        }
 
-// Retrieve and display the snippet
-const retrievedSnippet = snippetStorageManager.getSnippetById(newSnippet.id);
-console.log('Retrieved Snippet:', retrievedSnippet);
+        const title = await vscode.window.showInputBox({ prompt: 'Enter snippet title' });
+        if (!title) return;
 
-// Update the snippet
-snippetStorageManager.updateSnippet(newSnippet.id, { content: 'console.log("Updated content");' });
-console.log('Snippet updated!');
+        const language = editor.document.languageId;
 
-// Delete the snippet
-snippetStorageManager.deleteSnippet(newSnippet.id);
-console.log('Snippet deleted!');
+        const newSnippet: Snippet = {
+            id: uuidv4(),
+            title,
+            language,
+            content: selectedText,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+        };
+
+        snippetStorageManager.addSnippet(newSnippet);
+        vscode.window.showInformationMessage(`Snippet "${title}" saved.`);
+    });
+
+    // Command to retrieve all snippets for a language
+    let listSnippetsCommand = vscode.commands.registerCommand('snippetBoost.listSnippets', async () => {
+        const language = await vscode.window.showQuickPick(
+            [...new Set(snippetStorageManager.getAllSnippets().map(snippet => snippet.language))],
+            { placeHolder: 'Select a language to filter snippets' }
+        );
+
+        if (!language) return;
+
+        const snippets = snippetStorageManager.getAllSnippets(language);
+        if (snippets.length === 0) {
+            vscode.window.showInformationMessage(`No snippets found for ${language}.`);
+            return;
+        }
+
+        const selectedSnippet = await vscode.window.showQuickPick(
+            snippets.map(snippet => snippet.title),
+            { placeHolder: 'Select a snippet to copy to clipboard' }
+        );
+
+        if (!selectedSnippet) return;
+
+        const snippet = snippets.find(snippet => snippet.title === selectedSnippet);
+        if (snippet) {
+            vscode.env.clipboard.writeText(snippet.content);
+            vscode.window.showInformationMessage(`Snippet "${snippet.title}" copied to clipboard.`);
+        }
+    });
+
+    context.subscriptions.push(addSnippetCommand, listSnippetsCommand);
+}
+
+export function deactivate() {
+    console.log('SnippetBoost extension deactivated.');
+}
 
