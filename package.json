@@ -2,8 +2,7 @@
   "name": "snippetboost",
   "displayName": "SnippetBoost",
   "description": "A VS Code extension to save and manage code snippets.",
-  "version": "1.0.0",
-  "publisher": "Kevin Thurman",
+  "version": "1.0.0", 
   "engines": {
     "vscode": "^1.74.0"
   },
