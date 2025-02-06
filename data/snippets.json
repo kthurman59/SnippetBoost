@@ -14,5 +14,13 @@
     "content": "console.log('Hello, World!');",
     "createdAt": 1738699559081,
     "updatedAt": 1738699559081
+  },
+  {
+    "id": "57f96d6d-4ef3-4740-9ea6-38e2eb82d91f",
+    "title": "test",
+    "language": "typescriptreact",
+    "content": "onst styles = StyleSheet.create({\n  container: {\n      flex: 1,\n      backgroundColor: 'f5f5f5',\n    },\n});",
+    "createdAt": 1738843549766,
+    "updatedAt": 1738843549766
   }
 ]
