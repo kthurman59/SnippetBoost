@@ -1,7 +1,20 @@
 {
   "name": "snippetboost",
+  "displayName": "SnippetBoost",
+  "description": "A VS Code extension to save and manage code snippets.",
   "version": "1.0.0",
-  "description": "",
+  "publisher": "Kevin Thurman",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Productivity",
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onCommand:snippetBoost.addSnippet",
+    "onCommand:snippetBoost.listSnippets"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -16,16 +29,23 @@
     ]
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "pretest": "npm run build",
+    "test": "node ./out/test/runTest.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kthurman59/SnippetBoost.git"
+    "url": "https://github.com/kthurman59/SnippetBoost.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "snippet",
+    "code",
+    "productivity",
+    "vscode-extension"
+  ],
+  "author": "Kevin Thurman",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/kthurman59/SnippetBoost/issues"
   },
@@ -34,9 +54,13 @@
     "@types/node": "^22.13.0",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.96.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0"
   },
   "dependencies": {
     "uuid": "^11.0.5"
   }
 }
+
